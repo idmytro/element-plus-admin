@@ -55,7 +55,7 @@ async function logIn (name, pass) {
   const user = await Parse.User
     .logIn(name, pass)
     .then(function (user) {
-      console.log('User logged in successful with name: ' + user.get('username') + ' and email: ' + user.get('email'))
+      console.log('User logged in successful with email: ' + user.get('email'))
       return user.get('username')
     })
     .catch(function (error) {
@@ -137,23 +137,21 @@ export default defineComponent({
     userName: {
       immediate: true,
       handler (v) {
-        console.log('user W', v)
+        // console.log('user W', v)
         if (v) this.$router.push('/')
       },
     },
   },
 
   created () {
-    console.log('/', this.userName)
+    // console.log('/', this.userName)
   },
 
   methods: {
     ...mapMutations(['setUserName']),
     async handleSignIn () {
       const { email, password } = this.formValues
-      console.log('handleSignIn 2', email, password)
       const res = await logIn(email, password)
-      console.log('res', res)
       if (res) {
         this.setUserName(res)
       }
