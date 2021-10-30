@@ -25,9 +25,9 @@
         </el-form-item>
       </el-form>
       <el-button
-        class="sign-in-btn"
         type="primary"
         :loading="isLoading"
+        class="sign-in-btn"
         @click.stop="handleSignIn"
       >
         {{ i18n.t(`action.signIn`) }}

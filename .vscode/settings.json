@@ -21,5 +21,28 @@
   "cSpell.words": [
     "SVGO",
     "xlink"
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#19d44b",
+    "activityBar.activeBorder": "#7c54eb",
+    "activityBar.background": "#19d44b",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#7c54eb",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "editorGroup.border": "#19d44b",
+    "panel.border": "#19d44b",
+    "sash.hoverBorder": "#19d44b",
+    "sideBar.border": "#19d44b",
+    "statusBar.background": "#14a63b",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#19d44b",
+    "statusBarItem.remoteBackground": "#14a63b",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#14a63b",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#14a63b99",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#14a63b"
 }

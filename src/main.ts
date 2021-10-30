@@ -14,6 +14,7 @@ import '@/styles/style.scss'
 import '@/icons'
 import ElementPlus from 'element-plus'
 import components from '@/components'
+import 'windi.css'
 
 const app = createApp(App)
 
