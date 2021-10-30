@@ -44,7 +44,26 @@ import {
   reactive,
   defineComponent,
 } from 'vue'
+import { createNamespacedHelpers } from 'vuex'
+import Parse from 'parse'
 import { useEnhancer } from '@/enhancers'
+
+const { mapState, mapMutations } = createNamespacedHelpers('user')
+
+async function logIn (name: string, pass: string) {
+  // Create a new instance of the user class
+  const user = await Parse.User
+    .logIn(name, pass)
+    .then(function (user) {
+      console.log('User logged in successful with name: ' + user.get('username') + ' and email: ' + user.get('email'))
+      return user.get('username')
+    })
+    .catch(function (error) {
+      console.log('Error: ' + error.code + ' ' + error.message)
+    })
+
+  return user
+}
 
 export default defineComponent({
   name: 'SignIn',
@@ -70,17 +89,18 @@ export default defineComponent({
 
     const redirect = computed(() => route.query && route.query.redirect)
 
-    const handleSignIn = () => {
-      const formValidator = unref(form)
+    // const handleSignIn = () => {
+    //   console.log('handleSignIn')
+    //   const formValidator = unref(form)
 
-      // @ts-expect-error TODO
-      formValidator.validate((valid: boolean) => {
-        if (!valid) return false
-        isLoading.value = true
-        router.push(redirect.value || '/')
-        isLoading.value = false
-      })
-    }
+    //   // @ts-expect-error TODO
+    //   formValidator.validate((valid: boolean) => {
+    //     if (!valid) return false
+    //     isLoading.value = true
+    //     router.push(redirect.value || '/')
+    //     isLoading.value = false
+    //   })
+    // }
 
     return {
       i18n,
@@ -88,8 +108,35 @@ export default defineComponent({
       isLoading,
       formValues,
       formRules,
-      handleSignIn,
+      // handleSignIn,
     }
+  },
+
+  computed: {
+    ...mapState(['userName']),
+  },
+
+  watch: {
+    userName: {
+      immediate: true,
+      handler (v) {
+        console.log('user W', v)
+        if (v) this.$router.push('/')
+      },
+    },
+  },
+
+  methods: {
+    ...mapMutations(['setUserName']),
+    async handleSignIn () {
+      const { username, password } = this.formValues
+      console.log('handleSignIn 2', username, password)
+      const res = await logIn(username, password)
+      console.log('res', res)
+      if (res) {
+        this.setUserName(res)
+      }
+    },
   },
 })
 </script>

@@ -31,8 +31,8 @@ export default defineComponent({
     const { store } = useEnhancer()
 
     const wrapperClass = computed(() => ({
-      'is-sidebar-open': store.getters.sidebar.isOpen,
-      'is-sidebar-close': !store.getters.sidebar.isOpen,
+      // 'is-sidebar-open': store.getters.sidebar.isOpen,
+      // 'is-sidebar-close': !store.getters.sidebar.isOpen,
     }))
 
     return {

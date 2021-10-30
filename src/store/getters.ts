@@ -14,7 +14,7 @@ const getters: GetterTree<GlobalState, unknown> = {
   sidebar: state => state.app.sidebar,
 
   // user
-  token: state => state.user.token,
+  // token: state => state.user.token,
 
   // router
   routes: state => state.router.routes,

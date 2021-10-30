@@ -1,12 +1,11 @@
-import type { RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
-import Layout from '@/layout/index.vue'
-import store from '@/store'
+/**
+ * @file Constant routes
+ * @module router/routes
+ * @author ntnyq <https://github.com/ntnyq>
+ */
 
-function requireAuth (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext): void {
-  const isAuthenticated = !!store.state.user.userName
-  if (!isAuthenticated) next({ name: 'SignIn' })
-  else next()
-}
+import type { RouteRecordRaw } from 'vue-router'
+import Layout from '@/layout/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -52,7 +51,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/dashboard/index.vue'),
       },
     ],
-    beforeEnter: requireAuth,
   },
 
   {

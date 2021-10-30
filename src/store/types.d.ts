@@ -16,7 +16,7 @@ export type AppState = {
 }
 
 export type UserState = {
-  token: string
+  userName: string
 }
 
 export type ViewState = {

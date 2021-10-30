@@ -19,8 +19,8 @@ import router from './modules/router'
 const modules: ModuleTree<unknown> = {
   app,
   user,
-  view,
-  router,
+  // view,
+  // router,
 }
 
 export const createStore = (): Store<GlobalState> => createVuexStore({ getters, modules })

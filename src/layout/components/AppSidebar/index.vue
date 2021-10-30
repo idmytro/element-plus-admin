@@ -37,11 +37,11 @@ export default defineComponent({
     const { route, store } = useEnhancer()
 
     const activeMenu = computed(() => route.meta.activeMenu || route.path)
-    const routes = computed(() => store.getters.routes)
+    // const routes = computed(() => store.getters.routes)
     const sidebar = computed(() => store.getters.sidebar)
 
     return {
-      routes,
+      // routes,
       sidebar,
       activeMenu,
     }

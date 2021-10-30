@@ -6,8 +6,8 @@
 
 import type { ActionTree, MutationTree } from 'vuex'
 import type { RouteRecordRaw } from 'vue-router'
-import constantsRoutes from '@/router/routes'
-import asyncRoutes from '@/router/async-routes'
+import constantsRoutes from '@/router_/routes'
+import asyncRoutes from '@/router_/async-routes'
 import { SET_ROUTES } from '@/constants/store'
 import type { RouterState } from '../types'
 
