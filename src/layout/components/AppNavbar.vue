@@ -1,24 +1,24 @@
 <template>
   <div class="app-navbar">
     <div class="navbar-block">
-      <button
+      <!-- <button
         type="button"
         role="hamburger"
         class="app-hamburger"
         @click="toggleSidebar"
       >
         <svg-icon :name="menuIconName" />
-      </button>
+      </button> -->
       <router-link
         to="/"
-        class="navbar-brand"
+        class="navbar-brand pl-20px"
       >
-        Element Plus Admin
+        Kids' Emotions
       </router-link>
     </div>
     <div class="navbar-block">
       <el-tooltip
-        :content="i18n.t(`action.toggleFullscreen`)"
+        content="Развернуть на весь экран"
         class="navbar-block-item"
         effect="dark"
         placement="bottom"
@@ -26,49 +26,75 @@
         <app-screenfull />
       </el-tooltip>
 
-      <el-dropdown
-        placement="bottom"
-        trigger="click"
-        class="navbar-dropdown"
-        @command="handleCommand"
+      <el-badge
+        :max="99"
+        class="!cursor-default user-message-badge"
       >
-        <div class="navbar-dropdown-trigger">
-          <el-badge
-            :max="99"
-            class="user-message-badge"
-          >
-            <img
-              src="~@/assets/images/avatar.png"
-              class="user-avatar"
-              alt="User Avatar"
-            >
-            <span class="user-name"> Hi, {{ username }} </span>
-            <i class="el-icon-caret-bottom" />
-          </el-badge>
-        </div>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="dashboard">
-              首页
-            </el-dropdown-item>
-            <el-dropdown-item command="updatePassword">
-              更新密码
-            </el-dropdown-item>
-            <el-dropdown-item command="signOut">
-              退出
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+        <img
+          :src="gravatar"
+          class="user-avatar"
+          alt="User Avatar"
+        >
+        <span class="user-name">{{ userName }}</span>
+      </el-badge>
+
+      <button
+        class="navbar-block-item px-1em"
+        style="font-size: 16px"
+        @click="logout"
+      >
+        Выйти
+      </button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
+import Parse from 'parse'
 import { defineComponent, computed } from 'vue'
+import { createNamespacedHelpers } from 'vuex'
+
 import { useEnhancer } from '@/enhancers'
 import { message } from '@/utils/element'
 import { SIGN_OUT, TOGGLE_SIDEBAR } from '@/constants/store'
+
+// const md5 = require('md5')
+
+import md5 from 'md5'
+
+const { mapState, mapMutations } = createNamespacedHelpers('user')
+
+const getCurrentUser = async function () {
+  const currentUser = await Parse.User.current()
+  if (currentUser !== null) {
+    // console.log(
+    //   'Success!',
+    //   `${currentUser.get('username')} is the current user!`,
+    // )
+    // Alert.alert(
+    //   'Success!',
+    //   `${currentUser.get('username')} is the current user!`,
+    // );
+  }
+  return currentUser
+}
+
+const doUserLogOut = async function () {
+  try {
+    await Parse.User.logOut()
+    // To verify that current user is now empty, currentAsync can be used
+    const currentUser = await Parse.User.current()
+    if (currentUser === null) {
+      alert('Success! No user is logged in anymore!')
+    }
+    // Update state variable holding current user
+    getCurrentUser()
+    return true
+  } catch (error) {
+    alert(`Error! ${error.message}`)
+    return false
+  }
+}
 
 export default defineComponent({
   name: 'AppNavbar',
@@ -76,14 +102,14 @@ export default defineComponent({
   setup () {
     const { i18n, router, store } = useEnhancer()
 
-    const username = computed(() => 'ntnyq')
+    // const username = computed(() => 'ntnyq')
     const menuIconName = computed(() => store.getters.sidebar?.isOpen ? 'left' : 'hamburger')
 
-    const toggleSidebar = (): void => {
+    const toggleSidebar = () => {
       store.dispatch(TOGGLE_SIDEBAR.action)
     }
 
-    const handleCommand = async (command: string): Promise<void> => {
+    const handleCommand = async (command) => {
       switch (command) {
         case 'dashboard':
           router.push('/')
@@ -105,11 +131,38 @@ export default defineComponent({
 
     return {
       i18n,
-      username,
+      // username,
       menuIconName,
       toggleSidebar,
       handleCommand,
     }
+  },
+
+  data () {
+    return { user: null }
+  },
+
+  computed: {
+    ...mapState(['userName']),
+    gravatar () {
+      return this.userName ? 'https://www.gravatar.com/avatar/' + md5(this.userName) : ''
+    },
+  },
+
+  async created () {
+    const currentUser = await this.$Parse.User.current()
+    console.log('currentUser', currentUser)
+  },
+
+  methods: {
+    ...mapMutations(['resetUserName']),
+    async logout () {
+      console.log('object')
+      const res = await doUserLogOut()
+      console.log('res', res)
+      if (res) this.resetUserName()
+      this.$router.push('/sign-in')
+    },
   },
 })
 </script>

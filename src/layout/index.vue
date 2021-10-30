@@ -4,7 +4,7 @@
     class="app-wrapper"
   >
     <app-navbar />
-    <app-sidebar />
+    <!-- <app-sidebar /> -->
     <div class="app-main-wrapper">
       <app-main />
     </div>
@@ -24,7 +24,7 @@ export default defineComponent({
   components: {
     AppMain,
     AppNavbar,
-    AppSidebar,
+    // AppSidebar,
   },
 
   setup () {

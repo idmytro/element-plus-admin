@@ -7,19 +7,19 @@
         :rules="formRules"
       >
         <h1 class="sitn-in-title">
-          ElementPlus Admin
+          {{ $title }}
         </h1>
-        <el-form-item prop="username">
+        <el-form-item prop="email">
           <el-input
-            v-model.trim="formValues.username"
-            placeholder="请输入用户名"
+            v-model.trim="formValues.email"
+            placeholder="email"
           />
         </el-form-item>
         <el-form-item prop="password">
           <el-input
             v-model.trim="formValues.password"
-            type="new-password"
-            placeholder="请输入密码"
+            placeholder="пароль"
+            show-password
             @keyup.enter="handleSignIn"
           />
         </el-form-item>
@@ -30,13 +30,13 @@
         class="sign-in-btn"
         @click.stop="handleSignIn"
       >
-        {{ i18n.t(`action.signIn`) }}
+        Войти
       </el-button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import {
   ref,
   unref,
@@ -50,7 +50,7 @@ import { useEnhancer } from '@/enhancers'
 
 const { mapState, mapMutations } = createNamespacedHelpers('user')
 
-async function logIn (name: string, pass: string) {
+async function logIn (name, pass) {
   // Create a new instance of the user class
   const user = await Parse.User
     .logIn(name, pass)
@@ -63,6 +63,20 @@ async function logIn (name: string, pass: string) {
     })
 
   return user
+}
+
+const validateEmail0 = (value = '') => {
+  return (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value))
+}
+
+const validateEmail = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('Введите email'))
+  } else if (!validateEmail0(value)) {
+    callback(new Error('Введите валидный email'))
+  } else {
+    callback()
+  }
 }
 
 export default defineComponent({
@@ -79,13 +93,13 @@ export default defineComponent({
     const isLoading = ref(false)
 
     const formValues = reactive({
-      username: '',
+      email: '',
       password: '',
     })
-    const formRules = reactive({
-      username: { required: true, message: '请填写用户名', trigger: ['blur', 'change'] },
-      password: { required: true, message: '请填写密码', trigger: ['blur', 'change'] },
-    })
+    const formRules = {
+      email: [{ validator: validateEmail, trigger: ['blur', 'change'] }],
+      password: { required: true, message: 'Введите пароль', trigger: ['blur', 'change'] },
+    }
 
     const redirect = computed(() => route.query && route.query.redirect)
 
@@ -114,6 +128,9 @@ export default defineComponent({
 
   computed: {
     ...mapState(['userName']),
+    title () {
+      return process.env.VUE_APP_TITLE || ''
+    },
   },
 
   watch: {
@@ -126,12 +143,16 @@ export default defineComponent({
     },
   },
 
+  created () {
+    console.log('/', this.userName)
+  },
+
   methods: {
     ...mapMutations(['setUserName']),
     async handleSignIn () {
-      const { username, password } = this.formValues
-      console.log('handleSignIn 2', username, password)
-      const res = await logIn(username, password)
+      const { email, password } = this.formValues
+      console.log('handleSignIn 2', email, password)
+      const res = await logIn(email, password)
       console.log('res', res)
       if (res) {
         this.setUserName(res)
@@ -167,7 +188,7 @@ export default defineComponent({
     position: relative;
     width: 100%;
     margin-top: 10px;
-    letter-spacing: 10px;
+    // letter-spacing: 10px;
     font-size: 20px;
   }
 }

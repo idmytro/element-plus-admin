@@ -1,9 +1,10 @@
 <template>
   <div
     class="screenfull-container"
-    @click="handleClick"
   >
-    <svg-icon :name="iconName" />
+    <button @click="handleClick">
+      <svg-icon :name="iconName" />
+    </button>
   </div>
 </template>
 

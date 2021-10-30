@@ -18,7 +18,12 @@ VUE_APP_PARSE_SERVER_URL=https://parseapi.back4app.com/
 
 */
 
-const { VUE_APP_PARSE_APP_ID = '', VUE_APP_PARSE_JS_KEY, VUE_APP_PARSE_SERVER_URL = '' } = process.env
+const {
+  VUE_APP_PARSE_APP_ID = '',
+  VUE_APP_PARSE_JS_KEY,
+  VUE_APP_PARSE_SERVER_URL = '',
+  VUE_APP_TITLE,
+} = process.env
 
 Parse.initialize(VUE_APP_PARSE_APP_ID, VUE_APP_PARSE_JS_KEY)
 Parse.serverURL = VUE_APP_PARSE_SERVER_URL
@@ -32,6 +37,7 @@ app.use(i18n)
 app.use(ElementPlus)
 app.use(components)
 app.config.globalProperties.$Parse = Parse
+app.config.globalProperties.$title = VUE_APP_TITLE
 
 router.isReady()
   .then(() => app.mount('#app'))
