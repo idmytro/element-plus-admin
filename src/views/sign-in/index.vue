@@ -144,7 +144,13 @@ export default defineComponent({
   },
 
   created () {
-    // console.log('/', this.userName)
+    // console.log('/', Parse.Cloud)
+
+    // Parse.Cloud.define('getRole', async (request) => {
+    //   const query = await new Parse.Query(Parse.Role).equalTo('users', request.user).find()
+    //   console.log(query)
+    //   return query
+    // })
   },
 
   methods: {

@@ -10,23 +10,11 @@ import ElementPlus from 'element-plus'
 import components from '@/components'
 import 'windi.css'
 import Parse from 'parse'
-
-/*
-VUE_APP_PARSE_APP_ID=7Pbcc1FBnDIy6msm3tuSy8v8FFgSgaZP1VvrGiha
-VUE_APP_PARSE_JS_KEY=Kh8Gh6CukdbWEsLvTZ381DpYNe1P8S7UcEchGiWf
-VUE_APP_PARSE_SERVER_URL=https://parseapi.back4app.com/
-
-*/
+import './parse.js'
 
 const {
-  VUE_APP_PARSE_APP_ID = '',
-  VUE_APP_PARSE_JS_KEY,
-  VUE_APP_PARSE_SERVER_URL = '',
   VUE_APP_TITLE,
 } = process.env
-
-Parse.initialize(VUE_APP_PARSE_APP_ID, VUE_APP_PARSE_JS_KEY)
-Parse.serverURL = VUE_APP_PARSE_SERVER_URL
 
 const app = createApp(App)
 

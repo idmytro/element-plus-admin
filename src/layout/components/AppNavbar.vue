@@ -16,6 +16,12 @@
         Kids' Emotions
       </router-link>
     </div>
+
+    <div class="navbar-block space-x-1em">
+      <span>Анткеты</span>
+      <span>Добавить анкету</span>
+    </div>
+
     <div class="navbar-block">
       <el-tooltip
         content="Развернуть на весь экран"
@@ -150,8 +156,8 @@ export default defineComponent({
   },
 
   async created () {
-    const currentUser = await this.$Parse.User.current()
-    console.log('currentUser', currentUser)
+    // const currentUser = await this.$Parse.User.current()
+    // console.log('currentUser', currentUser)
   },
 
   methods: {
